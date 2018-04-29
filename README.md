@@ -92,10 +92,13 @@ Here are some tips to write **good** templates:
 * Write a README for your template, with information of why it's a convention
 and useful links for reference (documentation, source, etc.)
 
-* Use placeholders like `{{app_name}}` and substitute them for the real value:
+* Use **initializers** instead of modifying `config/application.rb`,
+referencing `Rails.configurations`
+
+* Use **placeholders** like `{{app_name}}` and substitute them for the real value:
 `gsub('{{app_name}}', app_name)`
 
-* Use colors to differentiate between questions and output:
+* Use **colors** to differentiate between questions and output:
 
 ```ruby
 use_docker if yes?('> Do you want to use Docker?', :green)
@@ -140,13 +143,12 @@ def download(file, output: nil, &block)
   output ||= file
   repo = 'https://raw.githubusercontent.com/civica-digital/rails-templates'
   branch = 'master'
-  directory = 'docker' # <=== **CHANGE THIS**
+  directory = 'docker'  # <=== **CHANGE THIS**
   url = "#{repo}/#{branch}/#{directory}/#{file}"
 
   render = open(url) do |input|
-    return input.binmode.read unless block_given?
-
-    block.call(input.binmode.read)
+    data = input.binmode.read
+    if block_given? then block.call(data) else data end
   end
 
   create_file output, render
@@ -156,6 +158,18 @@ end
 ## Tests
 To tests your templates simply call `templ` after a `rails new`, and verify
 your template is doing what was intended.
+
+## .railsrc
+You can put a `~/.railsrc` with the following content, so every `rails new`
+is ran with the respective flags:
+
+```bash
+--database=postgresql
+--skip-coffee
+--skip-test
+--skip-system-test
+--skip-bundle
+```
 
 ## Roadmap
 Visit the [issues][issues] section with the labels tagged as `roadmap`.

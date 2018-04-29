@@ -8,14 +8,18 @@ def download(file, output: nil, &block)
   url = "#{repo}/#{branch}/#{directory}/#{file}"
 
   render = open(url) do |input|
-    return input.binmode.read unless block_given?
-
-    block.call(input.binmode.read)
+    data = input.binmode.read
+    if block_given? then block.call(data) else data end
   end
 
   create_file output, render
 end
 
+say 'Configuring Sidekiq...', :yellow
+
 gem 'redis-rails'
 gem 'sidekiq'
-download 'sidekiq.rb', output: 'config/initializers/sidekiq'
+
+append_to_file 'Gemfile', redis_gem
+append_to_file 'Gemfile', sidekiq_gem
+download 'sidekiq.rb', output: 'config/initializers/sidekiq.rb'

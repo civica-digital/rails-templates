@@ -10,4 +10,4 @@ Sidekiq.configure_client do |config|
   config.redis = sidekiq_config
 end
 
-config.active_job.queue_adapter = :sidekiq
+Rails.configuration.active_job.queue_adapter = :sidekiq
