@@ -24,7 +24,8 @@ services:
       - .:/usr/src
       - gems:/usr/local/bundle
     environment:
-      - DATABASE_URL=postgresql://postgres@postgres:5432
+      - DATABASE_USERNAME=postgres
+      - DATABASE_HOST=postgres
       - REDIS_URL=redis://redis:6379
 
   sidekiq:

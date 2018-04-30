@@ -7,8 +7,36 @@ Documentation: https://docs.docker.com/
 
 ## Usage
 
-Open Source database with full text search support and geographical functions.
+Docker as a container technology to run our applications.
 
+It uses `docker-compose` and it have the following services:
+* `postgres`: Open source database
+* `redis`: Cache, Pub/Sub, Queue system
+* `web`: Application in Ruby on Rails
+* `sidekiq`: Backend for jobs
+
+## Notes
+If your application needs to render/write PDFs, or if you
+see something as the following image:
+
+![font-issue](https://i.stack.imgur.com/xeUQA.png)
+
+You need to add `ttf-freefont` package in both `Dockerfile` and
+`Dockerfile.dev`:
+
+```diff
+RUN set -ex \
+    && apk update \
+    && apk upgrade \
+    && apk add --no-cache --virtual .runtime \
+      bash \
+      imagemagick \
+      less \
+      nodejs \
+      postgresql-dev \
++     ttf-freefont \
+      tzdata
+```
 ------------------------------------------------------------
 
 :warning: Outdated

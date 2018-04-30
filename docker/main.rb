@@ -19,6 +19,9 @@ say 'Configuring Docker...', :yellow
 
 download 'Dockerfile'
 download 'Dockerfile.dev'
+download '.dockerignore'
 download 'docker-compose.yml' do |file|
   file.gsub('{{app_name}}', app_name.gsub('_', '-'))
 end
+
+download 'web_console.rb', output: 'config/initializers/web_console.rb'

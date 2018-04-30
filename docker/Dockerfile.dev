@@ -18,7 +18,7 @@ WORKDIR $HOME
 
 EXPOSE 3000
 
-CMD ["rails", "server", "--binding", "0.0.0.0", "--pid", "/tmp/pids/server.pid"]
+CMD ["rails", "server", "--binding", "0.0.0.0", "--pid", "/tmp/rails.pid"]
 
 RUN set -ex \
     && apk update \

@@ -1,0 +1,60 @@
+# vim :set syntax=conf
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Documentation
+README*
+doc/
+
+# Rails
+/.bundle/
+/.gem/
+/vendor/bundle/
+
+# Logfiles and tempfiles
+/log/*
+/tmp/*
+/shared/
+
+# Web
+/node_modules/
+/.npm/
+/public/assets/
+/yarn-error.log
+
+# Development
+*DS_Store
+/.bash_history
+/.byebug_history
+/.envrc
+/.local
+/.powenv
+/.pry_history
+/.pryrc
+/.rvmrc
+/storage/*
+
+# Rubocop
+.cache
+
+# Tests
+/coverage/
+/spec/reports/
+
+# Deploy
+deploy/
+
+# Utils
+Makefile
+Jenkinsfile
+tags
+
+# Respect the dot keep
+!.keep
