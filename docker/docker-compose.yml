@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:10.3-alpine
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+  redis:
+    image: redis:4.0-alpine
+    command: redis-server
+    volumes:
+      - redis:/data
+
+  web: &web
+    depends_on:
+      - postgres
+      - redis
+    image: civica-digital/{{app_name}}:development
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/usr/src
+      - gems:/usr/local/bundle
+    environment:
+      - DATABASE_URL=postgresql://postgres@postgres:5432
+      - REDIS_URL=redis://redis:6379
+
+  sidekiq:
+    <<: *web
+    command: sidekiq -q default -q mailers
+
+volumes:
+  postgres:
+  redis:
+  gems:
