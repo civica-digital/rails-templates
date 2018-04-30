@@ -20,6 +20,4 @@ say 'Configuring Sidekiq...', :yellow
 gem 'redis-rails'
 gem 'sidekiq'
 
-append_to_file 'Gemfile', redis_gem
-append_to_file 'Gemfile', sidekiq_gem
 download 'sidekiq.rb', output: 'config/initializers/sidekiq.rb'
