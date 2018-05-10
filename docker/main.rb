@@ -21,7 +21,13 @@ download 'Dockerfile'
 download 'Dockerfile.dev'
 download '.dockerignore'
 download 'docker-compose.yml' do |file|
-  file.gsub('{{app_name}}', app_name.gsub('_', '-'))
+  file.gsub!('{{app_name}}', app_name.gsub('_', '-'))
+
+  if yes?('> Do you want to use MongoDB?', :green)
+    file.gsub!('#', '')
+  else
+    file.gsub!(/#.*\n/, '')
+  end
 end
 
 download 'web_console.rb', output: 'config/initializers/web_console.rb'

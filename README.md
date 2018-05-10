@@ -96,7 +96,7 @@ and useful links for reference (documentation, source, etc.)
 referencing `Rails.configurations`
 
 * Use **placeholders** like `{{app_name}}` and substitute them for the real value:
-`gsub('{{app_name}}', app_name)`
+`gsub!('{{app_name}}', app_name)`
 
 * Use **colors** to differentiate between questions and output:
 

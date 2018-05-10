@@ -11,11 +11,17 @@ services:
     command: redis-server
     volumes:
       - redis:/data
+#
+#  mongo:
+#    image: mongo:3.6.4
+#    volumes:
+#      - mongo:/db/data
 
   web: &web
     depends_on:
       - postgres
       - redis
+#      - mongo
     image: civica-digital/{{app_name}}:development
     build:
       context: .
@@ -27,6 +33,7 @@ services:
       - DATABASE_USERNAME=postgres
       - DATABASE_HOST=postgres
       - REDIS_URL=redis://redis:6379
+#      - MONGO_URL=mongodb://mongo:27017
 
   sidekiq:
     <<: *web
@@ -35,4 +42,5 @@ services:
 volumes:
   postgres:
   redis:
+#  mongo:
   gems:

@@ -1,19 +1,19 @@
 # Docker
-> Docker configuration
+> Docker as a container technology
 
-Site: https://docker.com/
-Source: https://github.com/moby/moby
-Documentation: https://docs.docker.com/
+* Site: https://docker.com/
+* Source: https://github.com/moby/moby
+* Documentation: https://docs.docker.com/
 
 ## Usage
+We use Docker as a heavy lifter for isolated environments.
 
-Docker as a container technology to run our applications.
-
-It uses `docker-compose` and it have the following services:
+This template uses `docker-compose` and it has the following services:
 * `postgres`: Open source database
 * `redis`: Cache, Pub/Sub, Queue system
 * `web`: Application in Ruby on Rails
 * `sidekiq`: Backend for jobs
+* `mongodb`: In memory database, for I/O
 
 ## Notes
 If your application needs to render/write PDFs, or if you
