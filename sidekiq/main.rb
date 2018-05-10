@@ -17,7 +17,6 @@ end
 
 say 'Configuring Sidekiq...', :yellow
 
-gem 'redis-rails'
 gem 'sidekiq'
 
 download 'sidekiq.rb', output: 'config/initializers/sidekiq.rb'
