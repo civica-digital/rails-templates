@@ -1,6 +1,6 @@
 require 'open-uri'
 
-def download(file, output: nil)
+def download(file, output: nil, &block)
   output ||= file
   repo = 'https://raw.githubusercontent.com/civica-digital/rails-templates'
   branch = 'master'
@@ -9,7 +9,7 @@ def download(file, output: nil)
 
   render = open(url) do |input|
     data = input.binmode.read
-    block_given? ? yield(data) : data
+    if block_given? then block.call(data) else data end
   end
 
   create_file output, render
