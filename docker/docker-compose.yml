@@ -11,17 +11,17 @@ services:
     command: redis-server
     volumes:
       - redis:/data
-#
-#  mongo:
-#    image: mongo:3.6.4
-#    volumes:
-#      - mongo:/db/data
+#mongo
+#mongo  mongo:
+#mongo    image: mongo:3.6.4
+#mongo    volumes:
+#mongo      - mongo:/db/data
 
   web: &web
     depends_on:
       - postgres
       - redis
-#      - mongo
+#mongo      - mongo
     image: civica-digital/{{app_name}}:development
     build:
       context: .
@@ -33,14 +33,18 @@ services:
       - DATABASE_USERNAME=postgres
       - DATABASE_HOST=postgres
       - REDIS_URL=redis://redis:6379
-#      - MONGO_URL=mongodb://mongo:27017
+#mongo      - MONGO_URL=mongodb://mongo:27017
 
-  sidekiq:
-    <<: *web
-    command: sidekiq -q default -q mailers
-
+#sidekiq  sidekiq:
+#sidekiq    <<: *web
+#sidekiq    command: sidekiq -q default -q mailers
+#sidekiq
+#scheduler  scheduler:
+#scheduler    <<: *web
+#scheduler    command: ofelia daemon --config /usr/src/config/ofelia.ini
+#scheduler
 volumes:
   postgres:
   redis:
-#  mongo:
+#mongo  mongo:
   gems:

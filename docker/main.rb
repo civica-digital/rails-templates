@@ -23,10 +23,22 @@ download '.dockerignore'
 download 'docker-compose.yml' do |file|
   file.gsub!('{{app_name}}', app_name.gsub('_', '-'))
 
-  if yes?('> Do you want to use MongoDB?', :green)
-    file.gsub!('#', '')
+  if defined?(Mongo)
+    file.gsub!('#mongo', '')
   else
-    file.gsub!(/#.*\n/, '')
+    file.gsub!(/#mongo.*\n/, '')
+  end
+
+  if defined?(Sidekiq)
+    file.gsub!('#sidekiq', '')
+  else
+    file.gsub!(/#sidekiq.*\n/, '')
+  end
+
+  if File.file?('config/ofelia.ini')
+    file.gsub!('#scheduler', '')
+  else
+    file.gsub!(/#scheduler.*\n/, '')
   end
 end
 
