@@ -19,3 +19,17 @@ say 'Configuring Scheduler...', :yellow
 
 download 'ofelia', output: 'bin/ofelia'
 chmod 'bin/ofelia', 0775
+
+download 'config.ini', output: 'config/ofelia.ini'
+
+if File.file?('docker-compose.yml')
+  scheduler_service = <<~YML
+    scheduler:
+      <<: *web
+      command: ofelia daemon --config /usr/src/config/ofelia.ini
+  YML
+
+  insert_into_file 'docker-compose.yml',
+                   scheduler_service,
+                   before: "volumes:\n"
+end
