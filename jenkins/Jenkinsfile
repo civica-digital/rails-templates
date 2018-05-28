@@ -1,0 +1,88 @@
+pipeline {
+  agent any
+
+  options {
+    disableConcurrentBuilds()
+    buildDiscarder(logRotator(numToKeepStr: '50'))
+    timeout(time: 8, unit: 'MINUTES')
+  }
+
+  environment {
+    CI = "true"
+    DEPLOY_ENV = "staging"
+    REPOSITORY = "472554934874.dkr.ecr.us-east-1.amazonaws.com/{{app_name}}"
+    TAG = "v_${env.BUILD_NUMBER}"
+    HOST = "deploy@{{app_name}}.civicadesarrolla.me"
+    COMPOSE_PROJECT_NAME = "{{app_name}}"
+    AUTHOR_NAME = sh(returnStdout: true, script: 'git log --format="%an" | head -1').trim()
+    SHORT_COMMIT = sh(returnStdout: true, script: 'echo ${GIT_COMMIT:0:7}').trim()
+    GITHUB_REPOSITORY = sh(returnStdout: true, script: 'echo ${GIT_URL:0:-4}').trim()
+
+    TF_VAR_azure_client_id = credentials('azure-client-id')
+    TF_VAR_azure_client_secret = credentials('azure-client-secret')
+    TF_VAR_azure_subscription_id = credentials('azure-subscription-id')
+    TF_VAR_azure_tenant_id = credentials('azure-tenant-id')
+    TF_VAR_cloudflare_email = credentials('cloudflare-email')
+    TF_VAR_cloudflare_token = credentials('cloudflare-token')
+  }
+
+  stages {
+    stage('Bundle') { steps { sh 'make bundle' } }
+
+    stage('Prepare') { steps { sh 'make prepare' } }
+
+    stage('Test') { steps { sh 'make test' } }
+
+    stage('Analyze') { steps { sh 'make analyze' } }
+
+    stage('Deploy - Staging') {
+      when { branch 'master' }
+
+      steps {
+        sshagent(['civica-ci-ssh']) {
+          sh 'make deploy'
+        }
+      }
+    }
+
+    stage('Deploy - Production') {
+      when { branch 'release' }
+
+      environment {
+        TF_IN_AUTOMATION = false
+        DEPLOY_ENV = "production"
+        REPOSITORY = "472554934874.dkr.ecr.us-east-1.amazonaws.com/{{app_name}}-production"
+        HOST = ""
+        APP_DIR = ""
+      }
+
+      steps {
+        sshagent(['civica-ci-ssh']) {
+          sh 'make deploy'
+        }
+      }
+    }
+  }
+
+  post {
+    success {
+      slackSend(
+        color: 'good',
+        message: ":+1: <${env.RUN_DISPLAY_URL}|${env.JOB_NAME} [${env.BUILD_NUMBER}]>  *-*  <${GITHUB_REPOSITORY}/commit/${SHORT_COMMIT}|${SHORT_COMMIT}>  (_${AUTHOR_NAME}_)"
+      )
+    }
+
+    failure {
+      slackSend(
+        color: 'danger',
+        message: ":-1: <${env.RUN_DISPLAY_URL}|${env.JOB_NAME} [${env.BUILD_NUMBER}]>  *-*  <${GITHUB_REPOSITORY}/commit/${SHORT_COMMIT}|${SHORT_COMMIT}>  (_${AUTHOR_NAME}_)"
+      )
+    }
+
+    always {
+      echo 'Cleaning...'
+      sh 'make clean'
+      deleteDir()
+    }
+  }
+}
