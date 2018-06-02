@@ -18,6 +18,7 @@ end
 say 'Configuring PostgreSQL...', :yellow
 
 gem 'pg'
+gem 'wait_pg'
 
 download 'database.yml', output: 'config/database.yml' do |file|
   file.gsub('{{app_name}}', app_name)

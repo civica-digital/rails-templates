@@ -171,6 +171,27 @@ is ran with the respective flags:
 --skip-bundle
 ```
 
+## Example project
+```bash
+#!/usr/bin/env bash
+
+rails new \
+  --database=postgresql \
+  --skip-coffee \
+  --skip-test \
+  --skip-system-test \
+  --skip-bundle \
+  --skip-action-cable \
+  myapp
+
+cd myapp;        git add -A; git commit -m "Initial commit"
+templ postgres;  git add -A; git commit -m "Add PostgreSQL template"
+templ scheduler; git add -A; git commit -m "Add Scheduler template"
+templ docker;    git add -A; git commit -m "Add Docker template"
+templ make;      git add -A; git commit -m "Add Makefile"
+templ scheduler; git add -A; git commit -m "Add Scheduler template"
+```
+
 ## Roadmap
 Visit the [issues][issues] section with the labels tagged as `roadmap`.
 
