@@ -20,5 +20,5 @@ say 'Configuring Mailer...', :yellow
 if yes?('> Do you want to use Mailgun?', :green)
   gem 'mailgun-ruby'
   run 'bundle install'
-  download 'maligun.rb', output: 'config/initializers/mailer.rb'
+  download 'mailgun.rb', output: 'config/initializers/mailer.rb'
 end
