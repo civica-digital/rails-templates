@@ -5,12 +5,12 @@ services:
     image: postgres:10.3-alpine
     volumes:
       - postgres:/var/lib/postgresql/data
-
-  redis:
-    image: redis:4.0-alpine
-    command: redis-server
-    volumes:
-      - redis:/data
+#redis
+#redis  redis:
+#redis    image: redis:4.0-alpine
+#redis    command: redis-server
+#redis    volumes:
+#redis      - redis:/data
 #mongo
 #mongo  mongo:
 #mongo    image: mongo:3.6.4
@@ -20,7 +20,7 @@ services:
   web: &web
     depends_on:
       - postgres
-      - redis
+#redis      - redis
 #mongo      - mongo
     image: civica-digital/{{app_name}}:development
     build:
@@ -32,7 +32,7 @@ services:
     environment:
       - DATABASE_USERNAME=postgres
       - DATABASE_HOST=postgres
-      - REDIS_URL=redis://redis:6379
+#redis      - REDIS_URL=redis://redis:6379
 #mongo      - MONGO_URL=mongodb://mongo:27017
 
 #sidekiq  sidekiq:
@@ -45,6 +45,6 @@ services:
 #scheduler
 volumes:
   postgres:
-  redis:
+#redis  redis:
 #mongo  mongo:
   gems:

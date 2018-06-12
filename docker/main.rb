@@ -15,6 +15,14 @@ def download(file, output: nil, &block)
   create_file output, render
 end
 
+def toggle_service(name, file)
+  if yield
+    file.gsub!("##{name}", '')
+  else
+    file.gsub!(/##{name}.*\n/, '')
+  end
+end
+
 say 'Configuring Docker...', :yellow
 
 download 'Dockerfile'
@@ -23,23 +31,10 @@ download '.dockerignore'
 download 'docker-compose.yml' do |file|
   file.gsub!('{{app_name}}', app_name.gsub('_', '-'))
 
-  if defined?(Mongo)
-    file.gsub!('#mongo', '')
-  else
-    file.gsub!(/#mongo.*\n/, '')
-  end
-
-  if defined?(Sidekiq)
-    file.gsub!('#sidekiq', '')
-  else
-    file.gsub!(/#sidekiq.*\n/, '')
-  end
-
-  if File.file?('config/ofelia.ini')
-    file.gsub!('#scheduler', '')
-  else
-    file.gsub!(/#scheduler.*\n/, '')
-  end
+  toggle_service(:redis, file) { defined?(Redis) }
+  toggle_service(:mongo, file) { defined?(Mongo) }
+  toggle_service(:sidekiq, file) { defined?(Sidekiq) }
+  toggle_service(:scheduler, file) { File.file?('config/ofelia.ini') }
 end
 
 download 'web_console.rb', output: 'config/initializers/web_console.rb'
