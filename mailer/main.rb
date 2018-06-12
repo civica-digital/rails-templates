@@ -21,4 +21,9 @@ if yes?('> Do you want to use Mailgun?', :green)
   gem 'mailgun-ruby'
   run 'bundle install'
   download 'mailgun.rb', output: 'config/initializers/mailer.rb'
+
+elsif yes?('> Do you want to use AWS SES?', :green)
+  gem 'aws-ses', require: 'aws/ses'
+  run 'bundle install'
+  download 'aws-ses.rb', output: 'config/initializers/mailer.rb'
 end
