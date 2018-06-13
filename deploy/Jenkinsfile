@@ -18,12 +18,13 @@ pipeline {
     SHORT_COMMIT = sh(returnStdout: true, script: 'echo ${GIT_COMMIT:0:7}').trim()
     GITHUB_REPOSITORY = sh(returnStdout: true, script: 'echo ${GIT_URL:0:-4}').trim()
 
+    TF_VAR_cloudflare_email = credentials('cloudflare-email')
+    TF_VAR_cloudflare_token = credentials('cloudflare-token')
+
     TF_VAR_azure_client_id = credentials('azure-client-id')
     TF_VAR_azure_client_secret = credentials('azure-client-secret')
     TF_VAR_azure_subscription_id = credentials('azure-subscription-id')
     TF_VAR_azure_tenant_id = credentials('azure-tenant-id')
-    TF_VAR_cloudflare_email = credentials('cloudflare-email')
-    TF_VAR_cloudflare_token = credentials('cloudflare-token')
   }
 
   stages {
@@ -52,8 +53,8 @@ pipeline {
         TF_IN_AUTOMATION = false
         DEPLOY_ENV = "production"
         REPOSITORY = "472554934874.dkr.ecr.us-east-1.amazonaws.com/{{app_name}}-production"
-        HOST = ""
-        APP_DIR = ""
+        HOST = "changeme.example.com"
+        APP_DIR = "/var/www/changeme"
       }
 
       steps {

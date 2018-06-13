@@ -184,12 +184,10 @@ rails new \
   --skip-action-cable \
   myapp
 
-cd myapp;        git add -A; git commit -m "Initial commit"
-templ postgres;  git add -A; git commit -m "Add PostgreSQL template"
-templ scheduler; git add -A; git commit -m "Add Scheduler template"
-templ docker;    git add -A; git commit -m "Add Docker template"
-templ make;      git add -A; git commit -m "Add Makefile"
-templ scheduler; git add -A; git commit -m "Add Scheduler template"
+cd myapp;        bundle install; git add -A; git commit -m "Initial commit"
+templ postgres;  bundle install; git add -A; git commit -m "Add PostgreSQL template"
+templ docker;    bundle install; git add -A; git commit -m "Add Docker template"
+templ make;      bundle install; git add -A; git commit -m "Add Makefile"
 ```
 
 ## Roadmap
