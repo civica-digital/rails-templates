@@ -24,10 +24,10 @@ SED           := sed
 OS            := $(shell uname -s)
 RELEASE_HASH  := $(shell git rev-parse --short HEAD)
 USER          := $(shell id -u):$(shell id -g)
-DIRNAME       := $(shell basename $(shell pwd))
+DIRNAME       := $(shell basename $(shell pwd) | tr -d '[:punct:]')
 
 # Use Terraform in automation:
-# http://www.terraform.io/guides/running-terraform-in-automation.html
+# https://www.terraform.io/guides/running-terraform-in-automation.html
 TF_IN_AUTOMATION := true
 
 # Defaults to working directory
@@ -61,12 +61,12 @@ endif
 
 #: Run the test suite
 test:
-	docker-compose run --rm -e RAILS_ENV=test web rake spec; true
+	docker-compose run --rm -e RAILS_ENV=test web rake spec
 
 #: Run the static analysis suite
 analyze:
 	@echo "Rubocop:"
-	@docker-compose run --rm --no-deps web rubocop; true
+	@docker-compose run --rm --no-deps web rubocop
 	@echo "Rails Best Practices:"
 	@docker-compose run --rm --no-deps web rails_best_practices; true
 	@echo "Reek:"

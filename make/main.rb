@@ -18,5 +18,5 @@ end
 say 'Setting up a Makefile...', :yellow
 
 download 'Makefile' do |file|
-  file.gsub('{{app_name}}', app_name)
+  file.gsub('{{app_name}}', app_name.gsub('_', '-'))
 end
