@@ -37,7 +37,7 @@ download 'azure.tf', output: 'deploy/staging/main.tf'
 
 download 'environment', output: 'deploy/staging/provisions/environment' do |file|
   file.gsub('{{app_name}}', app_name.gsub('_', '-'))
-  file.gsub('{{db_name}}', "#{app_name}_production"))
+  file.gsub('{{db_name}}', "#{app_name}_production")
   file.gsub('{{secret_key_base}}', "#{SecureRandom.hex(64)}")
 end
 
