@@ -165,7 +165,7 @@ shell:
 
 #: Database: Remove all the data
 db-clear:
-	@docker volume rm $(COMPOSE_PROJECT_NAME)_db_data
+	@docker volume rm $(COMPOSE_PROJECT_NAME)_db
 
 #: Performs a fresh start (down, db-clear, dev)
 fresh: down db-clear dev

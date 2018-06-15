@@ -1,10 +1,10 @@
 version: '3'
 
 services:
-  postgres:
+  db:
     image: postgres:10.3-alpine
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - db:/var/lib/postgresql/data
 #redis
 #redis  redis:
 #redis    image: redis:4.0-alpine
@@ -19,7 +19,7 @@ services:
 
   web: &web
     depends_on:
-      - postgres
+      - db
 #redis      - redis
 #mongo      - mongo
     image: civica-digital/{{app_name}}:development
@@ -30,8 +30,8 @@ services:
       - .:/usr/src
       - gems:/usr/local/bundle
     environment:
+      - DATABASE_HOST=db
       - DATABASE_USERNAME=postgres
-      - DATABASE_HOST=postgres
 #redis      - REDIS_URL=redis://redis:6379
 #mongo      - MONGO_URL=mongodb://mongo:27017
 
@@ -44,7 +44,7 @@ services:
 #scheduler    command: ofelia daemon --config /usr/src/config/ofelia.ini
 #scheduler
 volumes:
-  postgres:
+  db:
 #redis  redis:
 #mongo  mongo:
   gems:
