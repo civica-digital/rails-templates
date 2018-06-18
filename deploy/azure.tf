@@ -219,7 +219,7 @@ data "template_file" "setup_server" {
 #  File storage (S3)
 # ----------------------------------------------------------------------
 resource "aws_s3_bucket" "file-storage" {
-  bucket = "${var.project_name}-staging"
+  bucket = "${var.project_name}-file-storage"
   acl    = "private"
 
   tags {

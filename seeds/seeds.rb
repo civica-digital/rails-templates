@@ -1,7 +1,7 @@
-require 'rainbow'
 require 'csv'
 require 'activerecord-import/base'
 require 'activerecord-import/active_record/adapters/postgresql_adapter'
+begin; require 'rainbow'; rescue LoadError; end
 
 module Seeds
   module_function
@@ -19,17 +19,31 @@ module Seeds
   end
 
   def header(title)
-    puts "\n\n#{separator}\n#{Rainbow(title).yellow}\n#{separator}"
+    if defined?(Rainbow)
+      title = Rainbow(title).yellow
+    end
+
+    puts "\n\n#{separator}\n#{title}\n#{separator}"
   end
 
   def finish
-    message = Rainbow('Success! c(^.^c)').green
+    if defined?(Rainbow)
+      message = Rainbow('Success! c(^.^c)').green
+    else
+      message = 'Success! c(^.^c)'
+    end
 
     puts "\n\n#{message}\n\n"
   end
 
   def separator
-    Rainbow('=' * 60).blue
+    line = '=' * 60
+
+    if defined?(Rainbow)
+      Rainbow(line).blue
+    else
+      line
+    end
   end
 
   def import_from_csv(dataset)
@@ -64,8 +78,12 @@ module Seeds
     non_user_tables = ['schema_migrations', 'ar_internal_metadata']
 
     print_table = proc do |table, count|
-      table_name = Rainbow((table + ':').ljust(35, ' ')).yellow
-      count = count > 0 ? Rainbow(count).green : Rainbow(count).red
+      table_name = (table + ':').ljust(35, ' ')
+
+      if defined?(Rainbow)
+        table_name = Rainbow(table_name).yellow
+        count = count > 0 ? Rainbow(count).green : Rainbow(count).red
+      end
 
       puts "\t#{table_name} #{count}\n"
     end
