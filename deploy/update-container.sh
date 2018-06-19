@@ -7,8 +7,6 @@ image=${1}
 main() {
   login_to_aws
   download_image
-  test_container
-  run_migrations
   update_compose_file
   run_migrations
   run_seeds
@@ -28,42 +26,10 @@ update_compose_file() {
   sed -i "s#image.*amazon.*#image: ${image}#g" ${COMPOSE_FILE}
 }
 
-test_container() {
-  local env_file="${COMPOSE_FILE%/*}/environment"
-
-  docker run --detach --env-file ${env_file} --name testing ${image}
-
-  pending_migrations=$(docker exec testing rails db:migrate:status \
-                        | awk'{print $1}' \
-                        | grep --count 'down')
-
-  [[ ${pending_migrations} > 0 ]] && docker exec testing rails db:migrate
-
-  sleep 3
-
-  ip=$(docker inspect
-        -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' \
-        testing)
-
-  health=$(curl --fail --silent "${ip}:3000/status")
-
-  if [[ -z "${health}" ]]; then
-    seq ${pending_migrations} | xargs -I{} docker exec testing rails db:rollback
-    docker rm -f testing
-    echo "Image not responding correctly, check rollbar for more details"
-    exit 1
-  else
-    docker rm -f testing
-  fi
-}
-
 recreate_services() {
   old_container=$(docker ps --filter name=web -q | head -n 1)
-
   docker-compose up -d --no-recreate --scale web=2
-
-  new_container=$(docker ps --filter name=web -q | head -n 1)
-  sleep 5;
+  sleep 3;
   docker stop $old_container && docker rm -f $old_container
   docker-compose up -d --no-recreate --scale web=1
   docker-compose up -d
@@ -74,7 +40,7 @@ run_seeds() {
 }
 
 run_migrations() {
-  docker-compose run --rm web sh -c 'wait_pg && rake db:create db:migrate'
+  docker-compose run --rm web sh -c 'wait_pg && rake db:migrate'
 }
 
 clean() {

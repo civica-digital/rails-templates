@@ -110,11 +110,12 @@ alias web-index="dc ps | grep -Eio 'web_[0-9]+' | grep -Eo '[0-9]+'"
 shell() { dc exec --index=\$(web-index) web bash ; }
 rails() { dc exec --index=\$(web-index) web rails \$@ ; }
 rake() { dc exec --index=\$(web-index) web rake \$@ ; }
+logs() { dc logs --index=\$(web-index) --tail=500 -f web ; }
 EOF
 }
 
 install_docker_compose() {
-  sudo curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` -o docker-compose
+  sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` -o docker-compose
   sudo mv docker-compose /usr/local/bin/
   sudo chmod +x /usr/local/bin/docker-compose
 }
