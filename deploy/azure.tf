@@ -214,64 +214,64 @@ data "template_file" "setup_server" {
     AWS_SECRET_KEY = "${aws_iam_access_key.project.secret}"
   }
 }
-
-# ----------------------------------------------------------------------
-#  File storage (S3)
-# ----------------------------------------------------------------------
-resource "aws_s3_bucket" "file-storage" {
-  bucket = "${var.project_name}-file-storage"
-  acl    = "private"
-
-  tags {
-    Environment = "staging"
-  }
-
-  lifecycle {
-    prevent_destroy = true
-  }
-}
-
-resource "aws_iam_user_policy" "s3" {
-  name = "${var.project_name}-S3"
-  user = "${aws_iam_user.project.name}"
-
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": "s3:*",
-      "Resource": [
-        "${aws_s3_bucket.file-storage.arn}",
-        "${aws_s3_bucket.file-storage.arn}/*"
-      ]
-    }
-  ]
-}
-EOF
-}
-
-# ----------------------------------------------------------------------
-#  Email provider (SES)
-# ----------------------------------------------------------------------
-resource "aws_iam_user_policy" "ses" {
-  name = "${var.project_name}-SES"
-  user = "${aws_iam_user.project.name}"
-
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": "ses:*",
-      "Resource": "*"
-    }
-  ]
-}
-EOF
-}
+#s3--
+#s3--# ----------------------------------------------------------------------
+#s3--#  File storage (S3)
+#s3--# ----------------------------------------------------------------------
+#s3--resource "aws_s3_bucket" "file-storage" {
+#s3--  bucket = "${var.project_name}-file-storage"
+#s3--  acl    = "private"
+#s3--
+#s3--  tags {
+#s3--    Environment = "staging"
+#s3--  }
+#s3--
+#s3--  lifecycle {
+#s3--    prevent_destroy = true
+#s3--  }
+#s3--}
+#s3--
+#s3--resource "aws_iam_user_policy" "s3" {
+#s3--  name = "${var.project_name}-S3"
+#s3--  user = "${aws_iam_user.project.name}"
+#s3--
+#s3--  policy = <<EOF
+#s3--{
+#s3--  "Version": "2012-10-17",
+#s3--  "Statement": [
+#s3--    {
+#s3--      "Effect": "Allow",
+#s3--      "Action": "s3:*",
+#s3--      "Resource": [
+#s3--        "${aws_s3_bucket.file-storage.arn}",
+#s3--        "${aws_s3_bucket.file-storage.arn}/*"
+#s3--      ]
+#s3--    }
+#s3--  ]
+#s3--}
+#s3--EOF
+#s3--}
+#ses--
+#ses--# ----------------------------------------------------------------------
+#ses--#  Email provider (SES)
+#ses--# ----------------------------------------------------------------------
+#ses--resource "aws_iam_user_policy" "ses" {
+#ses--  name = "${var.project_name}-SES"
+#ses--  user = "${aws_iam_user.project.name}"
+#ses--
+#ses--  policy = <<EOF
+#ses--{
+#ses--  "Version": "2012-10-17",
+#ses--  "Statement": [
+#ses--    {
+#ses--      "Effect": "Allow",
+#ses--      "Action": "ses:*",
+#ses--      "Resource": "*"
+#ses--    }
+#ses--  ]
+#ses--}
+#ses--EOF
+#ses--}
 
 # ----------------------------------------------------------------------
 #  DNS (Cloudflare)
@@ -300,7 +300,7 @@ output "aws_key_id" {
 output "aws_key_secret" {
   value = "${aws_iam_access_key.project.secret}"
 }
-
-output "bucket" {
-  value = "${aws_s3_bucket.file-storage.bucket}"
-}
+#s3--
+#s3--output "bucket" {
+#s3--  value = "${aws_s3_bucket.file-storage.bucket}"
+#s3--}

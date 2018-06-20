@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:10.3-alpine
+    restart: always
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER={{db_user}}
+      - POSTGRES_PASSWORD={{db_password}}
+      - POSTGRES_DB={{db_name}}
+
+  web: &web
+    restart: always
+    image: 472554934874.dkr.ecr.us-east-1.amazonaws.com/{{app_name}}
+    env_file:
+      - ./environment
+    labels:
+      - "traefik.backend=sics-web"
+      - "traefik.frontend.rule=Host:{{app_name}}.civicadesarrolla.me"
+      - "traefik.enable=true"
+      - "traefik.port=3000"
+    depends_on:
+      - db
+
+  traefik:
+    image: traefik
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik.toml:/traefik.toml
+      - ./acme.json:/acme.json
+
+volumes:
+  db:

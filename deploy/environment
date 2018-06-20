@@ -1,4 +1,3 @@
-DATABASE_URL=postgresql://postgres@db/{{db_name}}
 EMAIL_FROM=noreply+{{app_name}}@civica.digital
 HOST={{app_name}}.civicadesarrolla.me
 RAILS_LOG_TO_STDOUT=true
