@@ -15,6 +15,10 @@ def download(file, output: nil, &block)
   create_file output, render
 end
 
+def content_in_file?(content, file)
+  File.read(file).include?(content)
+end
+
 say 'Configuring Jenkins...', :yellow
 
 download 'Jenkinsfile' do |file|
@@ -38,10 +42,26 @@ download 'azure.tf', output: 'deploy/staging/main.tf' do |file|
   file.gsub('{{app_name}}', app_name.gsub('_', '-'))
 end
 
-download 'environment', output: 'deploy/staging/provisions/environment' do |file|
+staging_environment = 'deploy/staging/provisions/environment'
+
+download 'environment', output: staging_environment do |file|
   file.gsub!('{{app_name}}', app_name.gsub('_', '-'))
   file.gsub!('{{db_name}}', "#{app_name}_production")
   file.gsub!('{{secret_key_base}}', "#{SecureRandom.hex(64)}")
+end unless File.exist?(staging_environment)
+
+unless content_in_file?('NEW_RELIC_LICENSE_KEY=', staging_environment)
+  say('Configuring New Relic...', :yellow)
+  license_key = ask('> NEW_RELIC_LICENSE_KEY=', :green)
+  append_to_file staging_environment, "NEW_RELIC_LICENSE_KEY=#{license_key}\n"
+  append_to_file staging_environment, "NEW_RELIC_ENV=staging\n"
+end
+
+unless content_in_file?('ROLLBAR_ACCESS_TOKEN=', staging_environment)
+  say('Configuring Rollbar...', :yellow)
+  token = ask('> ROLLBAR_ACCESS_TOKEN=', :green)
+  append_to_file staging_environment, "ROLLBAR_ACCESS_TOKEN=#{token}\n"
+  append_to_file staging_environment, "ROLLBAR_ENV=staging\n"
 end
 
 download 'traefik.toml', output: 'deploy/staging/provisions/traefik.toml' do |file|
