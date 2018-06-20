@@ -115,7 +115,6 @@ infrastructure:
 		if [ $$status = 2 ]; then \
 			terraform apply -input=false -auto-approve=true; \
 			echo "There will be a downtime of ~5 min while the infrastructure is ready..."; \
-			sleep 5m; \
 		fi
 	@git stash -a
 
