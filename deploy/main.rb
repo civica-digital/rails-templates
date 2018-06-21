@@ -49,8 +49,9 @@ end
 
 def scripts
   scripts_dir = 'deploy/staging/scripts'
+  image = "centos" # ubuntu
 
-  download 'setup-server.sh', output: "#{scripts_dir}/setup-server.sh"
+  download "#{image}-setup-server.sh", output: "#{scripts_dir}/setup-server.sh"
   download 'update-container.sh', output: "#{scripts_dir}/update-container.sh"
 end
 
@@ -126,11 +127,15 @@ def git_crypt
     mroutis
     rafaelcr
     ricalanis
+    civica_ci
   )
 
   `git-crypt init`
   team_members.each { |user| `curl https://keybase.io/#{user}/pgp_keys.asc | gpg --import` }
   team_members.each { |user| `git-crypt add-gpg-user --trusted #{user[0..2]}` }
+
+  # Add civica_ci (jenkins) user
+  `git-crypt add-gpg-user --trusted admin@civica.digital`
 
   gitattributes = <<~CONF
   **/provisions/** filter=git-crypt diff=git-crypt

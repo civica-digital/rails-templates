@@ -18,8 +18,10 @@ app_dir="/var/www/$project_name"
 admin_username="azurevm"
 
 main() {
+  add_centos_repository
   create_user
   make_app_dir
+  configure_ssh
   install_docker
   configure_docker
   install_docker_compose
@@ -27,15 +29,32 @@ main() {
   install_python_pip
   install_awscli
   configure_awscli
-  configure_ssh
+}
+
+add_centos_repository() {
+  cat <<EOF > /etc/yum.repos.d/centos.repo
+[Centos-Base]
+name=CentOS 7 - BASE
+mirrorlist=http://mirrorlist.centos.org/?release=7&arch=x86_64&repo=os
+enabled=1
+gpgcheck=1
+gpgkey=http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-7
+EOF
+
+  sudo rpm --import http://mirror.centos.org/centos/RPM-GPG-KEY-CentOS-7
+
+  sudo yum install -y epel-release
 }
 
 create_user() {
-  # Creates a user (by default, named `deploy`), and
-  # copies the SSH keys from the administrator
+  # Creates a user (by default, named `deploy`) without sudo
+  # copies the SSH keys from the admin user
   useradd --create-home --shell /bin/bash $username
-  gpasswd -a $username sudo
+
   cp -R /home/$admin_username/.ssh /home/$username/
+
+  # Removing possible restrictions
+  sed -E -i 's/^.*(ssh-rsa)/\1/' /home/$username/.ssh/authorized_keys
   chown -R $username:$username /home/$username/.ssh
 }
 
@@ -74,34 +93,28 @@ EOF
 }
 
 install_docker() {
-  # Update repository
-  sudo apt-get -y update
+  # https://docs.docker.com/engine/installation/linux/docker-ce/centos/#install-docker-ce
 
-  # Install dependencies
-  sudo apt-get install -y \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    software-properties-common
+  sudo yum install -y yum-utils \
+                      device-mapper-persistent-data \
+                      lvm2
 
-  # Add Docker’s official GPG key
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  sudo yum-config-manager \
+      --add-repo \
+      https://download.docker.com/linux/centos/docker-ce.repo
 
-  # Add Docker's repository
-  sudo add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   $(lsb_release -cs) \
-   stable"
+  sudo yum install -y docker-ce
 
-  # Install Docker (Community edition)
-  sudo apt-get update -y \
-    && apt-get install -y docker-ce
+  # Enable Docker as a daemon and start it
+  sudo systemctl enable docker
+  sudo systemctl start docker
 }
 
 configure_docker() {
   # Add user to the Docker group and specify some useful functions
-  gpasswd -a $username docker
+  sudo usermod -a -G docker $username
 
+  # Using .bash_profile, as it takes more priority than .profile
   cat <<EOF>> /home/$username/.bash_profile
 
 export COMPOSE_FILE=$app_dir/docker-compose.yml
@@ -129,8 +142,9 @@ configure_docker_compose() {
 }
 
 install_python_pip() {
-  # The Ubuntu 16 distro doesn't ship with `pip` in Digital Ocean
-  sudo apt-get install -y python-pip
+  # The CentOS 7 distro doesn't ship with `pip` in Digital Ocean
+  sudo yum install -y python-pip
+  sudo pip install --upgrade pip
 }
 
 install_awscli() {

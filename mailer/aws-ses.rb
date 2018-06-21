@@ -6,5 +6,5 @@ ActionMailer::Base.add_delivery_method :ses, AWS::SES::Base,
   server: "email.#{ENV.fetch('AWS_REGION') { 'us-east-1' }}.amazonaws.com"
 
 Rails.configuration.action_mailer.delivery_method = :ses
-Rails.configuration.action_mailer.asset_host = ENV.fetch('HOST')
+Rails.configuration.action_mailer.asset_host = ENV['HOST']
 
