@@ -29,7 +29,7 @@ if yes?('> Do you want to use Mailgun?', :green)
   download 'mailgun.rb', output: 'config/initializers/mailer.rb'
 
   if File.exist?(environment_file) \
-      && content_in_file?('MAILGUN_API_KEY=', environment_file)
+      && !content_in_file?('MAILGUN_API_KEY=', environment_file)
 
     say('Configuring Mailgun...', :yellow)
 
@@ -44,4 +44,13 @@ elsif yes?('> Do you want to use AWS SES?', :green)
   gem 'aws-ses', require: 'aws/ses'
   run 'bundle install'
   download 'aws-ses.rb', output: 'config/initializers/mailer.rb'
+end
+
+
+if defined?(Devise)
+  say('Configuring Devise mailer...', :yellow)
+
+  gsub_file 'config/initializers/devise.rb',
+            /\s*config.mailer_sender.*/,
+            "  config.mailer_sender = ENV.fetch('EMAIL_FROM') { 'changeme@example.com' }\n"
 end
