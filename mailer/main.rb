@@ -19,14 +19,24 @@ def content_in_file?(content, file)
   File.read(file).include?(content)
 end
 
-def add_env_var(variable)
+def file_encrypted?(filename)
+  `git-crypt status -e`.include?(filename)
+end
+
+def add_env_var(variable, value=nil)
   environment_file = 'deploy/staging/provisions/environment'
 
   return unless File.exist?(environment_file)
 
+  say("Error: You don't have git-crypt installed", :red) and
+    return unless system('which git-crypt')
+
+  say("Error: Your environment file is not encrypted", :red) and
+    return unless file_encrypted?(environment_file)
+
   unless content_in_file?(variable, environment_file)
-    email_from = ask("> #{variable}=", :green)
-    append_to_file environment_file, "#{variable}=#{email_from}\n"
+    value ||= ask("> #{variable}=", :green)
+    append_to_file environment_file, "#{variable}=#{value}\n"
   end
 end
 
@@ -54,7 +64,7 @@ if defined?(Devise)
 
   gsub_file 'config/initializers/devise.rb',
             /  config.mailer_sender.*/,
-            "  config.mailer_sender = ENV.fetch('EMAIL_FROM') { 'changeme@example.com' }\n"
+            "  config.mailer_sender = ENV.fetch('EMAIL_FROM') { 'changeme@example.com' }"
 
   add_env_var('EMAIL_FROM')
 end

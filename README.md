@@ -155,6 +155,75 @@ def download(file, output: nil, &block)
 end
 ```
 
+* To add an **ENVIRONMENT VARIABLE**, we keep track of them using `git-crypt`,
+you can use the following snipet:
+
+```ruby
+def content_in_file?(content, file)
+  File.read(file).include?(content)
+end
+
+def file_encrypted?(filename)
+  `git-crypt status -e`.include?(filename)
+end
+
+def add_env_var(variable, value=nil)
+  environment_file = 'deploy/staging/provisions/environment'
+
+  return unless File.exist?(environment_file)
+
+  say("Error: You don't have git-crypt installed", :red) and
+    return unless system('which git-crypt')
+
+  say("Error: Your environment file is not encrypted", :red) and
+    return unless file_encrypted?(environment_file)
+
+  unless content_in_file?(variable, environment_file)
+    value ||= ask("> #{variable}=", :green)
+    append_to_file environment_file, "#{variable}=#{value}\n"
+  end
+end
+
+# Example:
+#   add_env_var('ROLLBAR_ACCESS_TOKEN')
+#   add_env_var('ROLLBAR_ENV', 'staging')
+```
+
+* To **toggle settings**, you can use the following script:
+```ruby
+def toggle_setting(name, file)
+  if yield
+    file.gsub!("##{name}", '')
+  else
+    file.gsub!(/##{name}.*\n/, '')
+  end
+end
+
+# Example:
+#   toggle_setting(:mongo, file) { defined?(Mongo) }
+```
+
+And the file should have the following format:
+```bash
+version: '3'
+
+services:
+  db:
+    image: postgres:10.3-alpine
+    volumes:
+      - db:/var/lib/postgresql/data
+#mongo
+#mongo  mongo:
+#mongo    image: mongo:3.6.4
+#mongo    volumes:
+#mongo      - mongo:/db/data
+
+volumes:
+  db:
+#mongo  mongo:
+  gems:
+```
+
 ## Tests
 To tests your templates simply call `templ` after a `rails new`, and verify
 your template is doing what was intended.

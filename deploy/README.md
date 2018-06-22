@@ -84,15 +84,40 @@ doesn't have a `ruby` version installed, neither the project dependencies
 To provide the host where we are going to create the containers, we use
 `Terraform` to describe how the infrastructure will look.
 
-### Provisons
+### git-crypt
 We wanted to declare the files that we are going to use in staging/production,
 in a place with controlled access and version control.
 
 The easiest and developer friendly way to do this, was using `git-crypt`.
-a tool for encrypting some `git` files using PGP keys.
+a tool for encrypting some `git` files using GNU/PGP keys.
 
 You can find an installation guide here: [git-crypt/INSTALL.md][git-crypt-install]
 
+The encryption process is pretty simple, once you have `git-crypt` installed
+you run `git-crypt init`, and **manually**, you need to create a file
+called `.gitattributes`, similar to the `.gitignore` you need to specify
+which files you want to encrypt, something like:
+
+```bash
+# .gitattributes
+
+**/provisions/** filter=git-crypt diff=git-crypt
+```
+
+with this configuration, every file inside a `provisions` directory will
+be encrypted:
+
+```bash
+mkdir -p deploy/provisions/
+echo "HELLO=world" > deploy/provisions/environment
+```
+
+To **verify** if a file **is encrypted or not**, just run:
+```bash
+git-crypt status -e
+```
+
+### Provisions
 The provisions will look something like this:
 
 ```bash

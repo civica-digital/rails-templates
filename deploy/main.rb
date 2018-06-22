@@ -15,7 +15,7 @@ def download(file, output: nil, &block)
   create_file output, render
 end
 
-def toggle_service(name, file)
+def toggle_setting(name, file)
   if yield
     file.gsub!("##{name}--", '')
   else
@@ -25,6 +25,27 @@ end
 
 def content_in_file?(content, file)
   File.read(file).include?(content)
+end
+
+def file_encrypted?(filename)
+  `git-crypt status -e`.include?(filename)
+end
+
+def add_env_var(variable, value=nil)
+  environment_file = 'deploy/staging/provisions/environment'
+
+  return unless File.exist?(environment_file)
+
+  say("Error: You don't have git-crypt installed", :red) and
+    return unless system('which git-crypt')
+
+  say("Error: Your environment file is not encrypted", :red) and
+    return unless file_encrypted?(environment_file)
+
+  unless content_in_file?(variable, environment_file)
+    value ||= ask("> #{variable}=", :green)
+    append_to_file environment_file, "#{variable}=#{value}\n"
+  end
 end
 
 def jenkins
@@ -59,8 +80,8 @@ def terraform
   download 'azure.tf', output: 'deploy/staging/main.tf' do |file|
     file.gsub!('{{app_name}}', app_name.gsub('_', '-'))
 
-    toggle_service(:s3, file) { defined?(Fog::AWS) }
-    toggle_service(:ses, file) { defined?(AWS::SES) }
+    toggle_setting(:s3, file) { defined?(Fog::AWS) }
+    toggle_setting(:ses, file) { defined?(AWS::SES) }
   end
 end
 
@@ -88,7 +109,7 @@ def provisions
     db_name     = "#{app_name}_production"
     db_url      = "postgresql://#{db_user}:#{db_password}@db/#{db_name}"
 
-    append_to_file "#{directory}/environment", "DATABASE_URL=#{db_url}\n"
+    add_env_var('DATABASE_URL', db_url)
 
     file.gsub!('{{db_user}}',     db_user)
     file.gsub!('{{db_password}}', db_password)
@@ -97,24 +118,12 @@ def provisions
   end unless File.exist?("#{directory}/docker-compose.yml")
 
   # New Relic
-  unless content_in_file?('NEW_RELIC_LICENSE_KEY=', "#{directory}/environment")
-    say('Configuring New Relic...', :yellow)
-
-    license_key = ask('> NEW_RELIC_LICENSE_KEY=', :green)
-
-    append_to_file "#{directory}/environment", "NEW_RELIC_LICENSE_KEY=#{license_key}\n"
-    append_to_file "#{directory}/environment", "NEW_RELIC_ENV=staging\n"
-  end
+  add_env_var('NEW_RELIC_LICENSE_KEY')
+  add_env_var('NEW_RELIC_ENV', 'staging')
 
   # Rollbar
-  unless content_in_file?('ROLLBAR_ACCESS_TOKEN=', "#{directory}/environment")
-    say('Configuring Rollbar...', :yellow)
-
-    token = ask('> ROLLBAR_ACCESS_TOKEN=', :green)
-
-    append_to_file "#{directory}/environment", "ROLLBAR_ACCESS_TOKEN=#{token}\n"
-    append_to_file "#{directory}/environment", "ROLLBAR_ENV=staging\n"
-  end
+  add_env_var('ROLLBAR_ACCESS_TOKEN')
+  add_env_var('ROLLBAR_ENV', 'staging')
 end
 
 def git_crypt
