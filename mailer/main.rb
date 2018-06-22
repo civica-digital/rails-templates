@@ -19,7 +19,16 @@ def content_in_file?(content, file)
   File.read(file).include?(content)
 end
 
-environment_file = 'deploy/staging/provisions/environment'
+def add_env_var(variable)
+  environment_file = 'deploy/staging/provisions/environment'
+
+  return unless File.exist?(environment_file)
+
+  unless content_in_file?(variable, environment_file)
+    email_from = ask("> #{variable}=", :green)
+    append_to_file environment_file, "#{variable}=#{email_from}\n"
+  end
+end
 
 say 'Configuring Mailer...', :yellow
 
@@ -28,17 +37,10 @@ if yes?('> Do you want to use Mailgun?', :green)
   run 'bundle install'
   download 'mailgun.rb', output: 'config/initializers/mailer.rb'
 
-  if File.exist?(environment_file) \
-      && !content_in_file?('MAILGUN_API_KEY=', environment_file)
+  say('Configuring Mailgun...', :yellow)
 
-    say('Configuring Mailgun...', :yellow)
-
-    api_key = ask('> MAILGUN_API_KEY=', :green)
-    domain = ask('> MAILGUN_DOMAIN=', :green)
-
-    append_to_file environment_file, "MAILGUN_API_KEY=#{api_key}\n"
-    append_to_file environment_file, "MAILGUN_DOMAIN=#{domain}\n"
-  end
+  add_env_var('MAILGUN_API_KEY')
+  add_env_var('MAILGUN_DOMAIN')
 
 elsif yes?('> Do you want to use AWS SES?', :green)
   gem 'aws-ses', require: 'aws/ses'
@@ -51,6 +53,8 @@ if defined?(Devise)
   say('Configuring Devise mailer...', :yellow)
 
   gsub_file 'config/initializers/devise.rb',
-            /\s*config.mailer_sender.*/,
+            /  config.mailer_sender.*/,
             "  config.mailer_sender = ENV.fetch('EMAIL_FROM') { 'changeme@example.com' }\n"
+
+  add_env_var('EMAIL_FROM')
 end
