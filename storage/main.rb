@@ -38,7 +38,18 @@ def add_env_var(variable, value=nil)
   end
 end
 
-if yes?('> Do you want to use Google Cloud Storage?', :green)
+if yes?('> Do you want to use AWS S3?', :green)
+  gem 'carrierwave'
+  gem 'fog-aws'
+  run 'bundle install'
+
+  download 'carrierwave-aws.rb', output: 'config/initializers/carrierwave.rb'
+
+  add_env_var('AWS_S3_BUCKET')
+  add_env_var('AWS_ACCESS_KEY')
+  add_env_var('AWS_SECRET_KEY')
+
+elsif yes?('> Do you want to use Google Cloud Storage?', :green)
   gem 'carrierwave'
   gem 'fog-google'
   gem 'google-api-client', '> 0.8.5', '< 0.9'
