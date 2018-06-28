@@ -85,6 +85,8 @@ To provide the host where we are going to create the containers, we use
 `Terraform` to describe how the infrastructure will look.
 
 ### git-crypt
+:warning: If you don't have `gpg` installed, run `brew install gpg`.
+
 We wanted to declare the files that we are going to use in staging/production,
 in a place with controlled access and version control.
 
@@ -116,6 +118,17 @@ To **verify** if a file **is encrypted or not**, just run:
 ```bash
 git-crypt status -e
 ```
+
+:warning: If you are not allowed to decrypt the project, and see the following
+message:
+```Decryptying...
+Error: no GPG secret key available to unlock this repository.
+To unlock with a shared symmetric key instead, specify the path to the
+symmetric key as an argument to 'git-crypt unlock'.
+```
+
+Run the following command to import your key from keybase.io to your machine.
+`keybase pgp export --secret --unencrypted | gpg --import -`
 
 ### Provisions
 The provisions will look something like this:
