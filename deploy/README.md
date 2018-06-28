@@ -84,6 +84,8 @@ doesn't have a `ruby` version installed, neither the project dependencies
 To provide the host where we are going to create the containers, we use
 `Terraform` to describe how the infrastructure will look.
 
+:warning: If you don't want to use terraform, set `TF_IN_AUTOMATION = false`
+
 ### git-crypt
 :warning: If you don't have `gpg` installed, run `brew install gpg`.
 
@@ -117,6 +119,18 @@ echo "HELLO=world" > deploy/provisions/environment
 To **verify** if a file **is encrypted or not**, just run:
 ```bash
 git-crypt status -e
+```
+
+To **add a new member** you can run the following command:
+```bash
+git-crypt add-gpg-user --trusted userid
+```
+
+The `userid` could be an identifier of the key, the email or
+name of the person in your keyring, you can check the name/email
+associated with the keys in your keyring with the following command:
+```bash
+gpg --list-keys
 ```
 
 :warning: If you are not allowed to decrypt the project, and see the following
