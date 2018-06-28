@@ -66,7 +66,7 @@ test:
 #: Run the static analysis suite
 analyze:
 	@echo "Rubocop:"
-	@docker-compose run --rm --no-deps web rubocop
+	@docker-compose run --rm --no-deps web rubocop; true
 	@echo "Rails Best Practices:"
 	@docker-compose run --rm --no-deps web rails_best_practices; true
 	@echo "Reek:"
