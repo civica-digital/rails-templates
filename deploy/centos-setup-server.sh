@@ -14,8 +14,8 @@ username=${USERNAME}
 project_name=${PROJECT_NAME}
 aws_access_key=${AWS_ACCESS_KEY}
 aws_secret_key=${AWS_SECRET_KEY}
+admin_username=${ADMIN_USERNAME}
 app_dir="/var/www/$project_name"
-admin_username="azurevm"
 
 main() {
   add_centos_repository
@@ -123,7 +123,7 @@ alias web-index="dc ps | grep -Eio 'web_[0-9]+' | grep -Eo '[0-9]+'"
 shell() { dc exec --index=\$(web-index) web bash ; }
 rails() { dc exec --index=\$(web-index) web rails \$@ ; }
 rake() { dc exec --index=\$(web-index) web rake \$@ ; }
-logs() { dc logs --index=\$(web-index) --tail=500 -f web ; }
+logs() { dc logs --tail=500 -f web ; }
 EOF
 }
 

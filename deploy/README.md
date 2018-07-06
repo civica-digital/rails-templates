@@ -86,6 +86,10 @@ To provide the host where we are going to create the containers, we use
 
 :warning: If you don't want to use terraform, set `TF_IN_AUTOMATION = false`
 
+### Web server
+We use normaly **CentOS** as our OS, as is compatible with Red Hat Linux,
+and our clients are heavy users
+
 ### git-crypt
 :warning: If you don't have `gpg` installed, run `brew install gpg`.
 
