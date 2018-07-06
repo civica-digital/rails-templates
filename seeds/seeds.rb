@@ -82,7 +82,7 @@ module Seeds
 
       if defined?(Rainbow)
         table_name = Rainbow(table_name).yellow
-        count = count > 0 ? Rainbow(count).green : Rainbow(count).red
+        count = count.to_i > 0 ? Rainbow(count).green : Rainbow(count).red
       end
 
       puts "\t#{table_name} #{count}\n"
