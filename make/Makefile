@@ -28,7 +28,7 @@ DIRNAME       := $(shell basename $(shell pwd) | tr -d '[:punct:]')
 
 # Use Terraform in automation:
 # https://www.terraform.io/guides/running-terraform-in-automation.html
-TF_IN_AUTOMATION := true
+TF_IN_AUTOMATION ?= true
 
 # Defaults to working directory
 COMPOSE_PROJECT_NAME ?= $(DIRNAME)
@@ -107,6 +107,7 @@ push:
 
 #: Run Terraform for infrastructure change management
 infrastructure:
+ifeq ($(TF_IN_AUTOMATION), true)
 	@echo "Terraform..."
 	@cd deploy/$(DEPLOY_ENV); \
 		terraform init -input=false; \
@@ -117,6 +118,7 @@ infrastructure:
 			echo "There will be a downtime of ~5 min while the infrastructure is ready..."; \
 		fi
 	@git stash -a
+endif
 
 #: Provide the HOST with the provisions/
 provide: decrypt
