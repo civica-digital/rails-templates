@@ -56,6 +56,17 @@ elsif yes?('> Do you want to use AWS SES?', :green)
   gem 'aws-ses', require: 'aws/ses'
   run 'bundle install'
   download 'aws-ses.rb', output: 'config/initializers/mailer.rb'
+
+  add_env_var('AWS_ACCESS_KEY')
+  add_env_var('AWS_SECRET_KEY')
+
+elsif yes?('> Do you want to use Sengrid?', :green)
+  gem 'sendgrid'
+  run 'bundle install'
+  download 'smtp.rb', output: 'config/initializers/mailer.rb'
+
+  add_env_var('SENDGRID_USERNAME')
+  add_env_var('SENDGRID_PASSWORD')
 end
 
 
