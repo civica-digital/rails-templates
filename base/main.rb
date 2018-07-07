@@ -21,7 +21,7 @@ def run_template(name)
   branch = 'master'
   url = "#{repo}/#{branch}/#{name}/main.rb"
 
-  if yes?("> Do you want to run template #{name}?", :green)
+  if yes?("> Do you want to run #{name} template?", :green)
     run "rails app:template LOCATION=#{url}"
   end
 end
@@ -99,6 +99,7 @@ unless is_api?
 
   run 'rails generate simple_form:install --bootstrap'
   run 'rails generate rspec:install'
+  run 'HAML_RAILS_DELETE_ERB=true rake haml:erb2haml'
 end
 
 run_template :postgres
