@@ -16,6 +16,16 @@ def download(file, output: nil, &block)
   create_file output, render
 end
 
+def run_template(name)
+  repo = 'https://raw.githubusercontent.com/civica-digital/rails-templates'
+  branch = 'master'
+  url = "#{repo}/#{branch}/#{name}/main.rb"
+
+  if yes?("> Do you want to run template #{name}?", :green)
+    run "rails app:template LOCATION=#{url}"
+  end
+end
+
 def is_api?
   ApplicationController.ancestors.include?(ActionController::API)
 end
@@ -48,7 +58,9 @@ end
 
 say 'Modifying the default controller generator...', :yellow
 
-FileUtils.mkdir_p('lib/templates/rails/scaffold_controller')
+Dir.exist?('lib/templates/rails/scaffold_controller') ||
+  FileUtils.mkdir_p('lib/templates/rails/scaffold_controller')
+
 download 'controller.rb', output: 'lib/templates/rails/scaffold_controller/controller.rb'
 
 say 'Adding Rspec and Factory Bot', :yellow
@@ -83,8 +95,18 @@ unless is_api?
                 "\n\n@import 'bootstrap';",
                  after: '*/'
 
-  Dir.mkdir 'app/views/pages'
+  Dir.exist?('app/views/pages') || Dir.mkdir('app/views/pages')
 
   run 'rails generate simple_form:install --bootstrap'
   run 'rails generate rspec:install'
 end
+
+run_template :postgres
+run_template :seeds
+run_template :sidekiq
+run_template :storage
+run_template :scheduler
+run_template :make
+run_template :mailer
+run_template :docker
+run_template :deploy
