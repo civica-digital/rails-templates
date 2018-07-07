@@ -85,6 +85,15 @@ def terraform
   end
 end
 
+def monitoring
+  say 'Adding monitoring tools...', :yellow
+
+  gem 'commit_hash'
+  gem 'health_check'
+
+  download 'health_check.rb', output: 'config/initializers/health_check.rb'
+end
+
 def provisions
   directory = 'deploy/staging/provisions'
 
@@ -158,6 +167,7 @@ def main
   setup_deploy_directory
   scripts
   terraform
+  monitoring
   provisions
   git_crypt
 end
