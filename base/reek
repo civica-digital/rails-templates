@@ -1,0 +1,57 @@
+# vi:syntax=yaml
+---
+#=================================================
+# Generic
+#=================================================
+
+NilCheck:
+  enabled: false
+
+FeatureEnvy:
+  enabled: false
+
+UncommunicativeVariableName:
+  accept:
+    - x
+DuplicateMethodCall:
+  max_calls: 3
+
+PrimaDonnaMethod:
+  enabled: false
+
+#=================================================
+# Rails
+#=================================================
+"app/controllers":
+  NestedIterators:
+    max_allowed_nesting: 2
+  UnusedPrivateMethod:
+    enabled: false
+  InstanceVariableAssumption:
+    enabled: false
+  TooManyStatements:
+    max_statements: 8
+
+"app/helpers":
+  UtilityFunction:
+    enabled: false
+
+"app/inputs":
+  InstanceVariableAssumption:
+    enabled: false
+
+"app/mailers":
+  InstanceVariableAssumption:
+    enabled: false
+
+"app/models":
+  IrresponsibleModule:
+    enabled: true
+    exclude:
+    - 'ApplicationRecord'
+
+exclude_paths:
+  - db/migrate
+  - db/seeds
+  - app/dashboards
+  - app/fields

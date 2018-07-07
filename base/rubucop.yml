@@ -1,0 +1,264 @@
+#=================================================
+# General
+#=================================================
+require: rubocop-rspec
+
+AllCops:
+  CacheRootDirectory: /tmp
+  TargetRubyVersion: 2.5
+  Exclude:
+    - 'db/**/*'
+    - 'node_modules/**/*'
+    - 'bin/**/*'
+    - 'config/**/*'
+    - 'script/**/*'
+  DisplayCopNames: true
+
+#=================================================
+# Layout
+#=================================================
+Layout/ExtraSpacing:
+  AllowForAlignment: true
+
+Layout/IndentHash:
+  EnforcedStyle: 'consistent'
+
+Layout/IndentArray:
+  EnforcedStyle: 'consistent'
+
+Layout/SpaceInLambdaLiteral:
+  EnforcedStyle: 'require_space'
+
+Layout/FirstParameterIndentation:
+  Enabled: false
+
+Layout/MultilineMethodCallBraceLayout:
+  Enabled: false
+
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+
+Layout/MultilineBlockLayout:
+  Enabled: false
+
+Layout/BlockEndNewline:
+  Enabled: false
+
+Layout/ClosingParenthesisIndentation:
+  Enabled: false
+
+#=================================================
+# Metrics
+#=================================================
+Metrics/LineLength:
+  Max: 100
+  Exclude:
+    - 'spec/**/*'
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/ParameterLists:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+#=================================================
+# Rails
+#=================================================
+Rails:
+  Enabled: true
+
+Rails/HasAndBelongsToMany:
+  Enabled: false
+
+# TODO: Check another possible implementation
+Rails/DynamicFindBy:
+  Whitelist: 'find_by_any_id'
+
+Rails/FilePath:
+  Enabled: false
+
+#=================================================
+# Naming
+#=================================================
+Naming/MemoizedInstanceVariableName:
+  Enabled: false
+
+#=================================================
+# RSpec
+#=================================================
+RSpec/AnyInstance:
+  Enabled: false
+
+#=================================================
+# Style
+#=================================================
+
+# It's cool to use `render and return`
+# but it isn't in conditionals.
+Style/AndOr:
+  EnforcedStyle: 'conditionals'
+
+# Don't chain with do..end blocks
+Style/BlockDelimiters:
+  EnforcedStyle: 'braces_for_chaining'
+  Exclude:
+    - 'spec/factories/*'
+  IgnoredMethods:
+    - 'let'
+    - 'before'
+
+# No one is going to die
+Style/BracesAroundHashParameters:
+  Enabled: false
+
+# I prefer this than hard to read blocks
+Style/RedundantParentheses:
+  Enabled: false
+
+# We will care about this in Ruby 3.0
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# Is easier to type ' than "
+Style/StringLiterals:
+  EnforcedStyle: 'single_quotes'
+
+# We are Mexicanos
+Style/AsciiComments:
+  Enabled: false
+
+# If your code needs documentation is not simple enough.
+# Add documentation where it adds value.
+Style/Documentation:
+  Enabled: false
+
+# Don't enforce hipster sugar.
+Style/SymbolArray:
+  Enabled: false
+
+Style/PercentLiteralDelimiters:
+  Enabled: false
+
+# Not relevant
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+# Scopes with -> and lambda for the hipster
+Style/Lambda:
+  Enabled: false
+
+# Why, tho?
+Style/IfUnlessModifierOfIfUnless:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+# Cool but counterintuitive
+Style/NumericPredicate:
+  Enabled: false
+
+# Go, JavaScript, and git diffs will love it
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: 'comma'
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: 'comma'
+
+# A little bit messy
+Style/TrailingCommaInArguments:
+  Enabled: false
+
+# Counterintuitive, Ruby is the only language doing this
+Style/ConditionalAssignment:
+  Enabled: false
+
+# Meh... I really don't care about this
+Style/BlockComments:
+  Enabled: false
+
+# I trust on the team that they use class vars with care:
+# https://stackoverflow.com/questions/3802540/difference-between-class-variables-and-class-instance-variables#3803089
+Style/ClassVars:
+  Enabled: false
+
+# Prefer thinking in map/reduce functions
+Style/EachWithObject:
+  Enabled: false
+
+# wtf?
+Style/NumericLiterals:
+  Enabled: false
+
+# Meh, not relevant
+Style/RegexpLiteral:
+  Enabled: false
+
+# Nah, not by default
+Style/WordArray:
+  Enabled: false
+
+#=================================================
+# Rspec
+#=================================================
+
+# Prefer tests with Ruby code, instead of RSpec magic.
+RSpec/DescribedClass:
+  Enabled: false
+
+# Good ol' instance variables
+# I prefer not to use them, tests are no longer self-contained,
+# and brakes atomicity.
+RSpec/InstanceVariable:
+  Enabled: false
+
+# Controller tests are better with multiple expectations
+RSpec/MultipleExpectations:
+  Enabled: false
+
+# We have an attribute called "context", we are excluding factories
+RSpec/EmptyExampleGroup:
+  Exclude:
+    - 'spec/factories/*'
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/FilePath:
+  Enabled: false
+
+RSpec/MessageSpies:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
+
+#=================================================
+# Lint
+#=================================================
+Lint/ParenthesesAsGroupedExpression:
+  Enabled: false
+
+# For tests, it's good to have useless assignments,
+# it increase readability of what your `create(...)` means
+Lint/UselessAssignment:
+  Exclude:
+    - 'spec/**/*'

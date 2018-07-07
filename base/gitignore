@@ -1,0 +1,49 @@
+# Rails
+/.bundle/
+/.gem/
+/vendor/bundle/
+
+# Logfiles and tempfiles
+/log/*
+/tmp/*
+/shared/
+
+# Web
+/node_modules/
+/public/assets/
+/yarn-error.log
+
+# Development
+*DS_Store
+/.bash_history
+/.byebug_history
+/.envrc
+/.local
+/.powenv
+/.pry_history
+/.pryrc
+/.rvmrc
+/storage/*
+
+# Secrets
+.env
+/config/application.yml
+/config/master.key
+
+# Rubocop
+.cache
+
+# Tests
+/coverage/
+/spec/reports/
+
+# Docker
+/docker-compose.override.yml
+
+# Deploy
+/deploy/**/.terraform/*
+/deploy/**/terraform*
+
+# Respect the dot keep
+!.keep
+public/uploads/

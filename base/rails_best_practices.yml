@@ -1,0 +1,28 @@
+AddModelVirtualAttributeCheck: { }
+AlwaysAddDbIndexCheck: { }
+CheckSaveReturnValueCheck: { }
+CheckDestroyReturnValueCheck: { }
+DefaultScopeIsEvilCheck: { }
+IsolateSeedDataCheck: { }
+KeepFindersOnTheirOwnModelCheck: { }
+MoveCodeIntoControllerCheck: { }
+MoveCodeIntoHelperCheck: { array_count: 3 }
+MoveCodeIntoModelCheck: { use_count: 2 }
+MoveFinderToNamedScopeCheck: { }
+MoveModelLogicIntoModelCheck: { use_count: 4 }
+NeedlessDeepNestingCheck: { nested_count: 2 }
+NotRescueExceptionCheck: { }
+NotUseDefaultRouteCheck: { }
+NotUseTimeAgoInWordsCheck: { }
+OveruseRouteCustomizationsCheck: { customize_count: 2 }
+ProtectMassAssignmentCheck: { }
+RemoveEmptyHelpersCheck: { }
+RemoveUnusedMethodsInControllersCheck: { except_methods: [ 'SessionsController#after_sign_in_path_for' ] }
+RemoveUnusedMethodsInHelpersCheck: { except_methods: [] }
+RemoveUnusedMethodsInModelsCheck: { except_methods: [] }
+SimplifyRenderInControllersCheck: { }
+SimplifyRenderInViewsCheck: { }
+UseModelAssociationCheck: { }
+UseMultipartAlternativeAsContentTypeOfEmailCheck: { }
+UseQueryAttributeCheck: { }
+UseScopeAccessCheck: { }
