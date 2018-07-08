@@ -53,6 +53,7 @@ say 'Adding default development tools...', :yellow
 
 gem_group :development, :test do
   gem 'pry-rails'
+  gem 'pry-byebug'
   gem 'active_record_query_trace'
 end
 
