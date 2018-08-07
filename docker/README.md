@@ -200,7 +200,7 @@ public/uploads/
 ```
 
 Para que la aplicación web se pueda comunicar al contenedor que tiene la base de datos,
-asegúrate de tener el arhivo `config/database.yml` de la siguiente manera:
+asegúrate de tener el archivo `config/database.yml` de la siguiente manera:
 ```yaml
 default: &default
   adapter: postgresql
