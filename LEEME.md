@@ -37,7 +37,8 @@ así que lo agregamos a este repositorio:
    └── main.rb
 ```
 
-##Incorporación
+## Incorporación
+
 Para facilitar el uso vamos a agregar al `bash` una función que va a referenciar los _templates_ utilizando: `$vim ~/.bashrc` y colocandolo al final del archivo.
 
 ```bash
@@ -77,6 +78,7 @@ plantilla, y documente los _components_/_modules_ que su aplicación está usand
 de las convenciones de Cívica Digital.
 
 ## Uso
+
 Después de inicializar un proyecto nuevo es decir después de correr `$rails new proyect_name`, o en uno ya avanzado puede comenzar a agregar los _templates_ con el siguiente comando:
 
 `$templ nombre_template`

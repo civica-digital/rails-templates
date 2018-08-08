@@ -38,7 +38,8 @@ so we add it to this repository:
    └── main.rb
 ```
 
-##Integration
+## Integration
+
 To facilitate the use we will add a `bash` the next function that will reference the _templates_ using: `$vim ~/.bashrc` and put it at the end of the file.
 
 ```bash
@@ -79,6 +80,7 @@ template, and document the _components_/_modules_ your application is using
 from the Cívica Digital conventions.
 
 ## Usage
+
 After initializing a new project `$rails new proyect_name`, or in an advanced one you can start adding the _templates_ with the following command:
 
 `$templ nombre_template`
