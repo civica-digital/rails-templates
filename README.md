@@ -258,7 +258,7 @@ You can put a `~/.railsrc` with the following content, so every `rails new` is r
 --skip-bundle
 ```
 
-## Proyecto (:warning: Example)
+## Project (:warning: Example)
 
 ```bash
 #!/usr/bin/env bash
