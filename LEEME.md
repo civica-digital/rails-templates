@@ -14,7 +14,7 @@ configuración** en [Cívica Digital][civica-digital].
 
 **Tiene la siguiente estructura de acrhivos:**
 
-(:warning: Ejemplo)
+:warning: Ejemplo
 
 ```bash
 .
@@ -59,7 +59,7 @@ templ() {
 Puede tener un script de shell en su `bin/` directorio en su aplicación, `bin/templates`, como un registro para las plantillas que utilizó:
 
 
-(:warning: Ejemplo)
+:warning: Ejemplo
 
 ```bash
 #!/usr/bin/env
@@ -105,7 +105,7 @@ haciendo referencia a `Rails.configurations`
 
 * Use **colores** para diferenciar entre preguntas y resultados:
 
-(:warning: Ejemplo)
+:warning: Ejemplo
 
 ```ruby
 use_docker if yes?('> Do you want to use Docker?', :green)
@@ -118,7 +118,7 @@ end
 
 * Si necesita utilizar cadenas multilínea, prefiera el formato `heredoc`:
 
-(:warning: Ejemplo)
+:warning: Ejemplo
 
 ```ruby
 def print_message
@@ -137,7 +137,7 @@ end
 * Escriba una función `download` como la que se encuentra abajo para buscar documentos del
 repositorio:
 
-(:warning: Ejemplo)
+:warning: Ejemplo
 
 ```ruby
 require 'open-uri'  # <=== **THIS IS IMPORTANT**
@@ -169,7 +169,7 @@ end
 * Para agregar **VARIABLE DE AMBIENTE**, hacemos un seguimiento de ellos usando `git-crypt`,
 puedes usar el siguiente _snipet_:
 
-(:warning: Ejemplo)
+:warning: Ejemplo
 
 ```ruby
 def content_in_file?(content, file)
@@ -204,7 +204,7 @@ end
 
 * Para **alternar configuración**, puede usar la siguiente secuencia de comandos:
 
-(:warning: Ejemplo)
+:warning: Ejemplo
 
 ```ruby
 def toggle_setting(name, file)
@@ -221,7 +221,7 @@ end
 
 Y el archivo debe tener el siguiente formato:
 
-(:warning: Ejemplo)
+:warning: Ejemplo
 
 ```bash
 version: '3'
@@ -259,7 +259,7 @@ se ejecuta con las banderas respectivas:
 --skip-bundle
 ```
 
-## Proyecto (:warning: Ejemplo)
+## :warning: Proyecto Ejemplo
 
 ```bash
 #!/usr/bin/env bash

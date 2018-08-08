@@ -14,7 +14,7 @@ configuration** in [Cívica Digital][civica-digital].
 
 **It has the following file structure:**
 
-(:warning: Example)
+:warning: Example
 
 ```bash
 .
@@ -61,7 +61,7 @@ For more good vibes, you can have a _shell script_ under your `bin/` directory
 in your application, `bin/templates`, as a log for the templates you used:
 
 
-(:warning: Example)
+:warning: Example
 
 ```bash
 #!/usr/bin/env
@@ -105,7 +105,7 @@ referencing `Rails.configurations`
 
 * Use **colors** to differentiate between questions and output:
 
-(:warning: Example)
+:warning: Example
 
 ```ruby
 use_docker if yes?('> Do you want to use Docker?', :green)
@@ -118,7 +118,7 @@ end
 
 *  If you need to use multiline strings, prefere the `heredoc` format:
 
-(:warning: Example)
+:warning: Example
 
 ```ruby
 def print_message
@@ -137,7 +137,7 @@ end
 * Write a `download` function like the one below to fetch documents from the
 repository:
 
-(:warning: Example)
+:warning: Example
 
 ```ruby
 require 'open-uri'  # <=== **THIS IS IMPORTANT**
@@ -169,7 +169,7 @@ end
 * To add an **ENVIRONMENT VARIABLE**, we keep track of them using `git-crypt`,
 you can use the following snipet:
 
-(:warning: Example)
+:warning: Example
 
 ```ruby
 def content_in_file?(content, file)
@@ -204,7 +204,7 @@ end
 
 * To **toggle settings**, you can use the following script:
 
-(:warning: Example)
+:warning: Example
 
 ```ruby
 def toggle_setting(name, file)
@@ -221,7 +221,7 @@ end
 
 And the file should have the following format:
 
-(:warning: Example)
+:warning: Example
 
 ```bash
 version: '3'
@@ -258,7 +258,7 @@ You can put a `~/.railsrc` with the following content, so every `rails new` is r
 --skip-bundle
 ```
 
-## Project (:warning: Example)
+## :warning: Project Example
 
 ```bash
 #!/usr/bin/env bash
