@@ -1,33 +1,32 @@
 # Rails templates
-> Templates for Cívica Digital's projects
+> _Templates_ usado en los proyectos de Cívica Digital
 
-## Description
+## Descripción
 > Los _templates_ de aplicación son simples archivos de Ruby que contienen _DSL_ para agregar
-> gemas, initializadores, etc. a su proyecto de _Rails_ recientemente creado o
+> gemas, inicializadores, etc. a su proyecto de _Rails_ recientemente creado o
 > ya avanzado.
 >
 > http://edgeguides.rubyonrails.org/rails_application_templates.html
 
-This repository holds several templates to encourage **convention over
-configuration** in [Cívica Digital][civica-digital].
+Este repositorio contiene varias plantillas para fomentar la **convención sobre
+configuración** en [Cívica Digital][civica-digital].
 
 
-**It has the following file structure:**
+**Tiene la siguiente estructura de acrhivos:**
 
-:warning: Example
+:warning: Ejemplo
 
 ```bash
 .
-└── template          # Name of the template
-   ├── README.md      #   Documentation
-   ├── file-01.txt    #   Additional files that will be referenced/downloaded
+└── template          # Nombre del template
+   ├── README.md      #   Documentación
+   ├── file-01.txt    #   Archivos adicionales que serán referenciados / descargados
    ├── file-02.yaml   #
-   └── main.rb        #   Ruby file containing the application template
+   └── main.rb        #   Archivo Ruby que contiene el template de la aplicación
 ```
 
-
-For example, there's a [Docker][docker] convention for Ruby on Rails projects,
-so we add it to this repository:
+Por ejemplo, hay una convención [Docker][docker] para proyectos de Ruby on Rails,
+así que lo agregamos a este repositorio:
 
 ```bash
 .
@@ -38,9 +37,9 @@ so we add it to this repository:
    └── main.rb
 ```
 
-## Integration
+## Incorporación
 
-To facilitate the use we will add a `bash` the next function that will reference the _templates_ using: `$ vim ~/.bashrc` and put it at the end of the file.
+Para facilitar el uso vamos a agregar al `bash` una función que va a referenciar los _templates_ utilizando: `$ vim ~/.bashrc` y colocandolo al final del archivo.
 
 ```bash
 templ() {
@@ -57,11 +56,10 @@ templ() {
 }
 ```
 
-For more good vibes, you can have a _shell script_ under your `bin/` directory
-in your application, `bin/templates`, as a log for the templates you used:
+Puede tener un script de shell en su `bin/` directorio en su aplicación, `bin/templates`, como un registro para las plantillas que utilizó:
 
 
-:warning: Example
+:warning: Ejemplo
 
 ```bash
 #!/usr/bin/env
@@ -75,37 +73,39 @@ templ simple-form
 templ terraform
 ```
 
-This way, you can just trigger `bin/templates` to update (re-run) every
-template, and document the _components_/_modules_ your application is using
-from the Cívica Digital conventions.
+De esta forma, puede activar `bin/templates` para actualizar (volver a ejecutar) cada
+plantilla, y documente los _components_/_modules_ que su aplicación está usando
+de las convenciones de Cívica Digital.
 
-## Usage
+## Uso
 
-After initializing a new project `$ rails new proyect_name`, or in an advanced one you can start adding the _templates_ with the following command:
+Después de inicializar un proyecto nuevo es decir después de correr `$ rails new proyect_name`, o en uno ya avanzado puede comenzar a agregar los _templates_ con el siguiente comando:
 
 `$ templ nombre_template`
 
 
-## Contributing
+## Contribución
 
-Feel free to send a **pull-request** to patch, add, or remove, any of the templates.
+Siéntase libre de enviar un **pull-request** para parchar, agregar o eliminar,
+cualquiera de las plantillas.
 
-Here are some tips to write **good** templates:
+Aquí hay algunos consejos para escribir **buenas** plantillas:
 
-* Read the [documentation of Ruby on Rails templates][templates-doc]
+* Lee la [documentación de  Ruby on Rails templates][templates-doc]
 
-* Write a README for your template, with information of why it's a convention
-and useful links for reference (documentation, source, etc.)
+* Escriba un README para su plantilla, con información de por qué es una convención
+y enlaces útiles para referencia (documentación, fuente, etc.)
 
-* Use **initializers** instead of modifying `config/application.rb`,
-referencing `Rails.configurations`
+* Use **initializers** en lugar de modificar `config/application.rb`,
+haciendo referencia a `Rails.configurations`
 
-* Use **placeholders** like `{{app_name}}` and substitute them for the real value:
+
+* Use **placeholders** como `{{app_name}}` y sustitúyalos por el valor real:
 `gsub!('{{app_name}}', app_name)`
 
-* Use **colors** to differentiate between questions and output:
+* Use **colores** para diferenciar entre preguntas y resultados:
 
-:warning: Example
+:warning: Ejemplo
 
 ```ruby
 use_docker if yes?('> Do you want to use Docker?', :green)
@@ -116,9 +116,9 @@ def use_docker
 end
 ```
 
-*  If you need to use multiline strings, prefere the `heredoc` format:
+* Si necesita utilizar cadenas multilínea, prefiera el formato `heredoc`:
 
-:warning: Example
+:warning: Ejemplo
 
 ```ruby
 def print_message
@@ -134,10 +134,10 @@ def print_message
 end
 ```
 
-* Write a `download` function like the one below to fetch documents from the
-repository:
+* Escriba una función `download` como la que se encuentra abajo para buscar documentos del
+repositorio:
 
-:warning: Example
+:warning: Ejemplo
 
 ```ruby
 require 'open-uri'  # <=== **THIS IS IMPORTANT**
@@ -166,10 +166,10 @@ def download(file, output: nil, &block)
 end
 ```
 
-* To add an **ENVIRONMENT VARIABLE**, we keep track of them using `git-crypt`,
-you can use the following snipet:
+* Para agregar **VARIABLE DE AMBIENTE**, hacemos un seguimiento de ellos usando `git-crypt`,
+puedes usar el siguiente _snipet_:
 
-:warning: Example
+:warning: Ejemplo
 
 ```ruby
 def content_in_file?(content, file)
@@ -202,9 +202,9 @@ end
 #   add_env_var('ROLLBAR_ENV', 'staging')
 ```
 
-* To **toggle settings**, you can use the following script:
+* Para **alternar configuración**, puede usar la siguiente secuencia de comandos:
 
-:warning: Example
+:warning: Ejemplo
 
 ```ruby
 def toggle_setting(name, file)
@@ -219,9 +219,9 @@ end
 #   toggle_setting(:mongo, file) { defined?(Mongo) }
 ```
 
-And the file should have the following format:
+Y el archivo debe tener el siguiente formato:
 
-:warning: Example
+:warning: Ejemplo
 
 ```bash
 version: '3'
@@ -244,11 +244,12 @@ volumes:
 ```
 
 ## Tests
+Para probar sus _templates_ simplemente llame a `templ` y verifique que su plantilla está haciendo lo que se pretendía.
 
-To tests your _templates_ simply call `templ template_name`  and verify your template is doing what was intended.
 
 ## .railsrc
-You can put a `~/.railsrc` with the following content, so every `rails new` is ran with the respective flags:
+Puede poner `~/.railsrc` con el siguiente contenido, por lo que cada `rails new`
+se ejecuta con las banderas respectivas:
 
 ```bash
 --database=postgresql
@@ -258,7 +259,7 @@ You can put a `~/.railsrc` with the following content, so every `rails new` is r
 --skip-bundle
 ```
 
-## :warning: Project Example
+## :warning: Proyecto Ejemplo
 
 ```bash
 #!/usr/bin/env bash
@@ -278,18 +279,18 @@ templ docker;    bundle install; git add -A; git commit -m "Add Docker template"
 templ make;      bundle install; git add -A; git commit -m "Add Makefile"
 ```
 
-## Contact us / Problems
+## Contácto / problemas
 
-We keep the proyect conversation in our [issues][issues] page in GitHub.
+Mantenemos la conversación del proyecto en nuestra página de [issues][issues] en GitHub.
 
-If you have any other questions, you can contact us by mail at <equipo@civica.digital>.
+Si tiene alguna otra pregunta, puede contactarnos por correo electrónico a <equipo@civica.digital>.
 
 
-## License
+## Licencia
 
-Licensed under the GNU General Public License (GPL) 3.0. Read the document [Licencia][license] for more information
+Bajo la Licencia GNU General Public License (GPL) 3.0. Lea el documento [Licencia][license] para más información
 
-##### Powered by [Cívica Digital][civica-digital] y the community, 2018.
+##### Powered by [Cívica Digital][civica-digital] y la comunidad, 2018.
 
 [templates-doc]: http://edgeguides.rubyonrails.org/rails_application_templates.html
 [civica-digital]: https://civica.digital
