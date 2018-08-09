@@ -1,6 +1,8 @@
 # Rails templates
 > _Templates_ usado en los proyectos de Cívica Digital
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/31d0ed2afea30ca89bfb/maintainability)](https://codeclimate.com/github/civica-digital/rails-templates/maintainability)
+
 ## Descripción
 > Los _templates_ de aplicación son simples archivos de Ruby que contienen _DSL_ para agregar
 > gemas, inicializadores, etc. a su proyecto de _Rails_ recientemente creado o
