@@ -3,7 +3,7 @@
 
 ## Descripción
 > Los _templates_ de aplicación son simples archivos de Ruby que contienen _DSL_ para agregar
-> gemas, initializadores, etc. a su proyecto de _Rails_ recientemente creado o
+> gemas, inicializadores, etc. a su proyecto de _Rails_ recientemente creado o
 > ya avanzado.
 >
 > http://edgeguides.rubyonrails.org/rails_application_templates.html
@@ -25,7 +25,7 @@ configuración** en [Cívica Digital][civica-digital].
    └── main.rb        #   Archivo Ruby que contiene el template de la aplicación
 ```
 
-Por ejemplo, hay una convención [Docker] [docker] para proyectos de Ruby on Rails,
+Por ejemplo, hay una convención [Docker][docker] para proyectos de Ruby on Rails,
 así que lo agregamos a este repositorio:
 
 ```bash
@@ -39,7 +39,7 @@ así que lo agregamos a este repositorio:
 
 ## Incorporación
 
-Para facilitar el uso vamos a agregar al `bash` una función que va a referenciar los _templates_ utilizando: `$vim ~/.bashrc` y colocandolo al final del archivo.
+Para facilitar el uso vamos a agregar al `bash` una función que va a referenciar los _templates_ utilizando: `$ vim ~/.bashrc` y colocandolo al final del archivo.
 
 ```bash
 templ() {
@@ -79,14 +79,14 @@ de las convenciones de Cívica Digital.
 
 ## Uso
 
-Después de inicializar un proyecto nuevo es decir después de correr `$rails new proyect_name`, o en uno ya avanzado puede comenzar a agregar los _templates_ con el siguiente comando:
+Después de inicializar un proyecto nuevo es decir después de correr `$ rails new proyect_name`, o en uno ya avanzado puede comenzar a agregar los _templates_ con el siguiente comando:
 
-`$templ nombre_template`
+`$ templ nombre_template`
 
 
 ## Contribución
 
-Siéntase libre de enviar una **pull-request** para parchar, agregar o eliminar,
+Siéntase libre de enviar un **pull-request** para parchar, agregar o eliminar,
 cualquiera de las plantillas.
 
 Aquí hay algunos consejos para escribir **buenas** plantillas:
