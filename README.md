@@ -289,7 +289,7 @@ If you have any other questions, you can contact us by mail at <equipo@civica.di
 
 Licensed under the GNU General Public License (GPL) 3.0. Read the document [Licencia][license] for more information
 
-##### Powered by [Cívica Digital][civica-digital] y the community, 2018.
+##### Powered by [Cívica Digital][civica-digital] and the community, 2018.
 
 [templates-doc]: http://edgeguides.rubyonrails.org/rails_application_templates.html
 [civica-digital]: https://civica.digital
