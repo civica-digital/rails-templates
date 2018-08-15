@@ -14,7 +14,7 @@ Este repositorio contiene varias plantillas para fomentar la **convención sobre
 configuración** en [Cívica Digital][civica-digital].
 
 
-**Tiene la siguiente estructura de acrhivos:**
+**Tiene la siguiente estructura de archivos:**
 
 :warning: Ejemplo
 
