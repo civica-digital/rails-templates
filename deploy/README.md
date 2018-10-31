@@ -125,7 +125,8 @@ To **verify** if a file **is encrypted or not**, just run:
 git-crypt status -e
 ```
 
-To **add a new member** you can run the following command:
+To **add a new member**, [add the user from Keybase](https://gist.github.com/3noch/3ecf12781a5fca486edfbe0498e9616e) into your gpg and then run:
+
 ```bash
 git-crypt add-gpg-user --trusted userid
 ```
